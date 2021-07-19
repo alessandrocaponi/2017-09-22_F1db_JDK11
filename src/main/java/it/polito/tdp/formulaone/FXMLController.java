@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.formulaone.model.Model;
+import it.polito.tdp.formulaone.model.Season;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ public class FXMLController {
     private URL location;
 
     @FXML
-    private ComboBox<?> boxAnno;
+    private ComboBox<Season> boxAnno;
 
     @FXML
     private Button btnSelezionaStagione;
@@ -44,6 +45,17 @@ public class FXMLController {
 
     @FXML
     void doSelezionaStagione(ActionEvent event) {
+    	
+    	if(boxAnno.getValue()==null) {
+    		txtResult.appendText("Seleziona una forma nella tendina\n\n");
+    		return;
+    	}
+    	
+    	String msg = model.doCreaGrafo(boxAnno.getValue());
+    	txtResult.appendText(msg);
+    	
+    	
+    	
 
     }
 
@@ -66,5 +78,8 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		boxAnno.getItems().clear();
+		boxAnno.getItems().addAll(model.getAllSeasons());
+		
 	}
 }
